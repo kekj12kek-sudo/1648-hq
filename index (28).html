@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>1648 HQ</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#000}
+
+/* ===== オープニング ===== */
+#opening{
+  position:fixed;inset:0;z-index:100;background:#000;
+  display:flex;align-items:center;justify-content:center;
+}
+#opening video{
+  width:100%;height:100%;object-fit:cover;
+}
+#opening.fade-out{
+  animation:fadeOut .8s ease forwards;
+}
+@keyframes fadeOut{
+  from{opacity:1}
+  to{opacity:0;pointer-events:none}
+}
+
+/* ===== メインHQ ===== */
+#hq{
+  position:fixed;inset:0;z-index:1;opacity:0;transition:opacity .8s ease;
+}
+#hq.visible{opacity:1}
+
+/* 背景動画 */
+#bgVideo{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:0;
+}
+
+/* タップエリア */
+.tap-area{
+  position:absolute;
+  z-index:10;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  /* デバッグ用：確認後にborderを外す */
+  /* border:2px solid rgba(255,255,0,.5); */
+}
+.tap-area::after{
+  content:"";
+  position:absolute;inset:0;
+  background:rgba(255,255,255,0);
+  border-radius:8px;
+  transition:background .15s;
+}
+.tap-area:active::after{
+  background:rgba(255,255,255,.15);
+}
+
+/* 突撃くん */
+#link-attack{
+  left:0%;top:12%;
+  width:42%;height:9%;
+}
+
+/* T12 promoter */
+#link-t12{
+  left:0%;top:21%;
+  width:44%;height:9%;
+}
+
+/* タップリップル */
+.ripple{
+  position:fixed;
+  width:60px;height:60px;
+  border-radius:50%;
+  background:rgba(255,255,255,.3);
+  transform:translate(-50%,-50%) scale(0);
+  animation:ripple .5s ease-out forwards;
+  pointer-events:none;
+  z-index:200;
+}
+@keyframes ripple{
+  to{transform:translate(-50%,-50%) scale(4);opacity:0}
+}
+</style>
+</head>
+<body>
+
+<!-- オープニング（3秒） -->
+<div id="opening">
+  <video id="openingVideo" playsinline autoplay muted>
+    <source src="opening.mp4" type="video/mp4">
+  </video>
+</div>
+
+<!-- メインHQ -->
+<div id="hq">
+  <video id="bgVideo" playsinline autoplay muted loop>
+    <source src="bg.mp4" type="video/mp4">
+  </video>
+
+  <!-- タップエリア：突撃くん -->
+  <div class="tap-area" id="link-attack"
+    data-url="https://kekj12kek-sudo.github.io/frost-dragon-app/frost_app.html">
+  </div>
+
+  <!-- タップエリア：T12 promoter -->
+  <div class="tap-area" id="link-t12"
+    data-url="https://kekj12kek-sudo.github.io/wos-alliance-tools/index.html">
+  </div>
+</div>
+
+<script>
+// ===== オープニング → HQ切り替え =====
+const openingEl  = document.getElementById("opening");
+const hqEl       = document.getElementById("hq");
+const openingVid = document.getElementById("openingVideo");
+
+function showHQ(){
+  openingEl.classList.add("fade-out");
+  hqEl.classList.add("visible");
+  setTimeout(()=>{ openingEl.style.display="none"; }, 800);
+}
+
+// 3秒後に自動切り替え
+let switched = false;
+function doSwitch(){
+  if(switched) return;
+  switched = true;
+  showHQ();
+}
+
+setTimeout(doSwitch, 3000);
+
+// 動画終了時にも切り替え（念のため）
+openingVid.addEventListener("ended", doSwitch);
+
+// 動画再生できない場合のフォールバック
+openingVid.addEventListener("error", doSwitch);
+
+// ===== タップエリア =====
+document.querySelectorAll(".tap-area").forEach(el=>{
+  el.addEventListener("click", e=>{
+    // リップルエフェクト
+    const ripple = document.createElement("div");
+    ripple.className = "ripple";
+    ripple.style.left = e.clientX + "px";
+    ripple.style.top  = e.clientY + "px";
+    document.body.appendChild(ripple);
+    setTimeout(()=>ripple.remove(), 500);
+
+    // 遷移
+    const url = el.dataset.url;
+    if(url) setTimeout(()=>{ location.href = url; }, 200);
+  });
+});
+</script>
+</body>
+</html>
