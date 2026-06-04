@@ -175,7 +175,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
   color:#86efac;
   box-shadow:0 4px 20px rgba(34,197,94,.4);
 }
-.link-btn-icon{font-size:20px;flex-shrink:0;}
+.link-btn-icon{width:36px;height:36px;flex-shrink:0;object-fit:contain;}
 .link-btn-text{display:flex;flex-direction:column;line-height:1.3;text-align:left;}
 .link-btn-main{font-size:14px;}
 .link-btn-sub{font-size:9px;opacity:.75;font-weight:600;}
@@ -231,24 +231,24 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
 <!-- リンクボタングループ -->
 <div id="link-buttons">
   <button class="link-btn link-btn-attack" onclick="goLink('https://kekj12kek-sudo.github.io/frost-dragon-app/frost_app.html', this)">
-    <span class="link-btn-icon">⚔️</span>
+    <img class="link-btn-icon" src="usagi.png" alt="突撃くん">
     <span class="link-btn-text">
       <span class="link-btn-main">突撃くん</span>
       <span class="link-btn-sub">SVS・霜竜 同時着弾管理</span>
     </span>
   </button>
   <button class="link-btn link-btn-t12" onclick="goLink('https://kekj12kek-sudo.github.io/wos-alliance-tools/index.html', this)">
-    <span class="link-btn-icon">🛡</span>
+    <img class="link-btn-icon" src="T12.png" alt="T12 Planner">
     <span class="link-btn-text">
       <span class="link-btn-main">T12 Planner</span>
       <span class="link-btn-sub">T12研究コスト計算</span>
     </span>
   </button>
   <button class="link-btn link-btn-yoyaku" onclick="goYoyaku(this)">
-    <span class="link-btn-icon">🚄</span>
+    <img class="link-btn-icon" src="EXPRESS.png" alt="官職予約 EXPRESS">
     <span class="link-btn-text">
       <span class="link-btn-main">官職予約 EXPRESS</span>
-      <span class="link-btn-sub">官職の予約アンケート</span>
+      <span class="link-btn-sub">1648 座席予約システム</span>
     </span>
   </button>
 </div>
