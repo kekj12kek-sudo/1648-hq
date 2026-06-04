@@ -129,7 +129,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
 /* ===== リンクボタングループ ===== */
 #link-buttons{
   position:fixed;
-  bottom:24px;
+  top:24px;
   left:50%;
   transform:translateX(-50%);
   z-index:50;
@@ -299,6 +299,8 @@ function goYoyaku(btn){
   let gone = false;
   function go(){
     if(gone) return; gone = true;
+    // HQコンテンツを即座に非表示
+    document.getElementById('hq').style.display = 'none';
     ov.classList.add('fade-out');
     setTimeout(()=>{ location.href = "https://kekj12kek-sudo.github.io/1648-yoyaku/"; }, 600);
   }
