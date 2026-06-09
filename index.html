@@ -42,8 +42,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
   z-index:10;
   cursor:pointer;
   -webkit-tap-highlight-color:transparent;
-  /* デバッグ用：確認後にborderを外す */
-  /* border:2px solid rgba(255,255,0,.5); */
 }
 .tap-area::after{
   content:"";
@@ -66,49 +64,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
 #link-t12{
   left:0%;top:21%;
   width:44%;height:9%;
-}
-
-/* 官職予約EXPRESSボタン */
-#btn-yoyaku{
-  position:fixed;
-  right:12px;
-  bottom:24px;
-  z-index:50;
-  background:linear-gradient(135deg,#1a4a9e,#0d2d6e);
-  border:2px solid #3b82f6;
-  border-radius:14px;
-  padding:10px 16px;
-  color:#fff;
-  font-family:'Hiragino Sans','Yu Gothic',sans-serif;
-  font-size:13px;
-  font-weight:900;
-  cursor:pointer;
-  box-shadow:0 4px 20px rgba(59,130,246,.5);
-  display:flex;
-  align-items:center;
-  gap:8px;
-  -webkit-tap-highlight-color:transparent;
-  letter-spacing:.5px;
-}
-#btn-yoyaku:active{
-  transform:scale(.95);
-  box-shadow:0 2px 10px rgba(59,130,246,.4);
-}
-#btn-yoyaku .yoyaku-icon{
-  font-size:18px;
-}
-#btn-yoyaku .yoyaku-text{
-  display:flex;
-  flex-direction:column;
-  line-height:1.3;
-}
-#btn-yoyaku .yoyaku-main{
-  font-size:13px;
-}
-#btn-yoyaku .yoyaku-sub{
-  font-size:9px;
-  color:#93c5fd;
-  font-weight:600;
 }
 
 /* タップリップル */
@@ -168,6 +123,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
   border:2px solid #f59e0b;
   color:#fde68a;
   box-shadow:0 4px 20px rgba(245,158,11,.4);
+}
+.link-btn-cost{
+  background:linear-gradient(135deg,rgba(109,40,217,.92),rgba(76,29,149,.92));
+  border:2px solid #a855f7;
+  color:#e9d5ff;
+  box-shadow:0 4px 20px rgba(168,85,247,.4);
 }
 .link-btn-yoyaku{
   background:linear-gradient(135deg,rgba(22,101,52,.92),rgba(15,70,35,.92));
@@ -244,6 +205,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#000}
       <span class="link-btn-sub">T12研究コスト計算</span>
     </span>
   </button>
+  <button class="link-btn link-btn-cost" onclick="goLink('https://kekj12kek-sudo.github.io/wos-cost-room/', this)">
+    <img class="link-btn-icon" src="cost_room_icon.png" alt="コスト計算room">
+    <span class="link-btn-text">
+      <span class="link-btn-main">コスト計算room</span>
+      <span class="link-btn-sub">宝石・装備 育成コスト計算</span>
+    </span>
+  </button>
   <button class="link-btn link-btn-yoyaku" onclick="goYoyaku(this)">
     <img class="link-btn-icon" src="EXPRESS.png" alt="官職予約 EXPRESS">
     <span class="link-btn-text">
@@ -265,7 +233,6 @@ function showHQ(){
   setTimeout(()=>{ openingEl.style.display="none"; }, 800);
 }
 
-// 3秒後に自動切り替え
 let switched = false;
 function doSwitch(){
   if(switched) return;
@@ -274,11 +241,7 @@ function doSwitch(){
 }
 
 setTimeout(doSwitch, 3000);
-
-// 動画終了時にも切り替え（念のため）
 openingVid.addEventListener("ended", doSwitch);
-
-// 動画再生できない場合のフォールバック
 openingVid.addEventListener("error", doSwitch);
 
 // ===== リンクボタン共通遷移 =====
@@ -295,11 +258,9 @@ function goYoyaku(btn){
   ov.classList.add('open');
   vid.currentTime = 0;
   vid.play().catch(()=>{});
-  // 動画終了 or 3.5秒後に遷移
   let gone = false;
   function go(){
     if(gone) return; gone = true;
-    // HQコンテンツを即座に非表示
     document.getElementById('hq').style.display = 'none';
     ov.classList.add('fade-out');
     setTimeout(()=>{ location.href = "https://kekj12kek-sudo.github.io/1648-yoyaku/"; }, 600);
@@ -319,8 +280,7 @@ function addRippleToBtn(btn){
   setTimeout(()=>ripple.remove(), 500);
 }
 
-// ===== タップエリア（動画内テキスト用・非表示でも残す） =====
-// タップエリア（動画に文言がある場合のフォールバック）
+// ===== タップエリア =====
 document.querySelectorAll('.tap-area').forEach(el=>{
   el.addEventListener('click', e=>{
     const url = el.dataset.url;
